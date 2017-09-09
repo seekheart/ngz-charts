@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # NgCharts
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.1.
@@ -26,3 +27,7 @@ Before running the tests make sure you are serving the app via `ng serve`.
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+=======
+# ng-charts
+angular 4 based D3 chart components
+>>>>>>> 073a41dbf051bc9dd419f6ee2d4edf6c900edb86
