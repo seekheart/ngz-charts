@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # NgCharts
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.1.
@@ -30,4 +29,3 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 =======
 # ng-charts
 angular 4 based D3 chart components
->>>>>>> 073a41dbf051bc9dd419f6ee2d4edf6c900edb86
