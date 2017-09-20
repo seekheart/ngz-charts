@@ -6,5 +6,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'app';
+  testData = [
+    {
+      'day': 1,
+      'gold': 1000
+    },
+    {
+      'day': 2,
+      'gold': 2000
+    }
+  ];
 }

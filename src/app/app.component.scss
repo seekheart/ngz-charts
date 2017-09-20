@@ -1,0 +1,19 @@
+.spacer {
+  width: 100%;
+  height: 100%;
+  background-color: blue;
+  border-left-color: red;
+  flex: 1 1 auto;
+}
+
+.test-area {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background-color: springgreen;
+}
+
+app-barchart {
+  width: 30%;
+  background-color: orange;
+}
