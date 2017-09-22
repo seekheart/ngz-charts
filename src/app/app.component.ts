@@ -16,4 +16,15 @@ export class AppComponent {
       'gold': 2000
     }
   ];
+
+  testData2 = [
+    {
+      'day': 10,
+      'gold': 4000
+    },
+    {
+      'day': 12,
+      'gold': 5500
+    }
+  ];
 }
