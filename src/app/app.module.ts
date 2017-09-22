@@ -2,15 +2,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { BarchartModule} from './barchart/barchart.module';
+import { BarchartComponent} from './barchart';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    BarchartComponent
   ],
   imports: [
-    BrowserModule,
-    BarchartModule
+    BrowserModule
   ],
   providers: [],
   bootstrap: [AppComponent]

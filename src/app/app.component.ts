@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { BarchartComponent} from './barchart';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,17 @@ export class AppComponent {
     {
       'day': 2,
       'gold': 2000
+    }
+  ];
+
+  testData2 = [
+    {
+      'day': 10,
+      'gold': 4000
+    },
+    {
+      'day': 12,
+      'gold': 5500
     }
   ];
 }
