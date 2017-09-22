@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { BarchartComponent} from './barchart';
 
 @Component({
   selector: 'app-root',
