@@ -1,22 +1,29 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {
+  Component, ElementRef, Input, OnInit, ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import * as d3 from 'd3';
-import 'rxjs/operator/map';
 
 @Component({
   selector: 'app-barchart',
   templateUrl: './barchart.component.html',
-  styleUrls: ['./barchart.component.css'],
-
+  styleUrls: ['./barchart.component.scss'],
 })
 export class BarchartComponent implements OnInit {
 
+  /* Get private instance of template to avoid collisions with other charts*/
+  @ViewChild('barchart') private chartContainer: ElementRef;
+
+  /**
+   * Obtain the settings for making the chart here and define defaults if none
+   * are specified
+   * */
+  @Input() width = 900;
+  @Input() height = 900;
+  @Input() margins = {'top': 50, 'right': 50, 'bottom': 50, 'left': 50};
   @Input() data: {}[];
-  @Input() params: {};
   @Input() xData: string;
   @Input() yData: string;
-
-  private xScale;
-  private yScale;
 
   constructor() {
   }
@@ -27,72 +34,55 @@ export class BarchartComponent implements OnInit {
     if (this.data == null) {
       throw new Error('Missing Data!');
     }
+
     this.draw();
   }
 
   draw() {
+    /*TODO: factor making a chart into a service or base component*/
+    const chartWidth = this.width - this.margins.left - this.margins.right;
+    const chartHeight = this.height - this.margins.top - this.margins.bottom;
 
-    if (this.params == null) {
-      this.params = {
-        'width': 900,
-        'height': 900,
-        'top': 30,
-        'right': 20,
-        'bottom': 20,
-        'left': 20
-      };
-    }
+    let xDataArray = this.data.map(el => el[this.xData]);
+    let yDataArray = [0, d3.max(this.data.map(el => el[this.yData]))];
 
-    const height = this.params['height'];
-    const width = this.params['width'];
-    const padding = {'top': 30, 'left': 50, 'bottom': 30, 'right': 30};
-    this.xScale = d3.scaleLinear()
-      .domain([0, d3.max(this.data, (d) => d[this.xData])])
-      .range([0, 200]);
+    const x = d3.scaleBand()
+              .domain(xDataArray)
+              .rangeRound([0, chartWidth]);
+    const y = d3.scaleLinear()
+              .domain(yDataArray)
+              .range([chartHeight, 0]);
 
-    this.yScale = d3.scaleLinear().rangeRound([this.params['height'], 0]);
+    const xAxis = d3.axisBottom(x);
+    const yAxis = d3.axisLeft(y);
 
-    /*Draw the canvas first and group chart elements together*/
-    const chart = d3.select('.test')
+    const element = this.chartContainer.nativeElement;
+
+    const chart = d3.select(element)
       .append('svg')
-      .attr('width', width + this.params['left'] + this.params['right'])
-      .attr('height', height + this.params['bottom'] + this.params['top']);
-    const g = chart.append('g')
-      .attr('transform', `translate(${padding.left}, ${padding.top})`);
+      .attr('width', chartWidth)
+      .attr('height', chartHeight)
+      .append('g')
+      .attr('transform', `translate(${this.margins.left}, ${this.margins.top})`);
 
-    /*Make scales relative to dataset*/
-    this.xScale = d3.scaleLinear()
-      .domain([0, d3.max(this.data, (d) => {
-        return d[this.xData];
-        }
-      )]).range([0, width]);
-    this.yScale.domain([0, d3.max(this.data, (d) => d[this.yData])]);
+    let chartXAxis = chart.append('g')
+                          .attr('class', 'x-axis')
+                          .attr('transform', `translate(0, ${chartHeight})`)
+                          .call(xAxis);
 
-    /*Draw the axes in*/
-    g.append('g').attr('class', 'x-axis')
-      .attr('transform', `translate(0, ${height})`)
-      .call(d3.axisBottom(this.xScale));
+    let chartYAxis = chart.append('g')
+                          .attr('class', 'y-axis')
+                          .attr('transform', `translate(0, ${this.margins.top})`)
+                          .call(yAxis);
 
-    g.append('g').attr('class', 'y-axis')
-      .call(d3.axisLeft(this.yScale))
-      .append('text')
-      .attr('transform', 'rotate(-90)')
-      .attr('text-anchor', 'end')
-      .text(this.yData);
-
-
-    /*Draw the data points in to the now ready canvas chart*/
-    g.selectAll('.bar')
+    chart.selectAll('.bar')
       .data(this.data)
       .enter()
       .append('rect')
-      .data(this.data)
       .attr('class', 'bar')
-      .attr('x', (d) => this.xScale(d[this.xData]))
-      .attr('y', (d) => this.yScale(d[this.yData]))
-      .attr('width', 25)
-      .attr('height', (d) => height - this.yScale(d[this.yData]));
-
+      .attr('x', d => x(d[this.xData]))
+      .attr('width', 5)
+      .attr('y', d => y(d[this.yData]))
+      .attr('height', d => chartHeight);
   }
-
 }
