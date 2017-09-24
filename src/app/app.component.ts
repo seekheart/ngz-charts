@@ -9,22 +9,22 @@ import { BarchartComponent} from './barchart';
 export class AppComponent {
   testData = [
     {
-      'day': 1,
+      'day': 'monday',
       'gold': 1000
     },
     {
-      'day': 2,
+      'day': 'tuesday',
       'gold': 2000
     }
   ];
 
   testData2 = [
     {
-      'day': 10,
+      'day': 'Jan',
       'gold': 4000
     },
     {
-      'day': 12,
+      'day': "Feb",
       'gold': 5500
     }
   ];

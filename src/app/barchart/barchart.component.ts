@@ -17,7 +17,7 @@ export class BarchartComponent implements OnInit {
    * */
   @Input() width = 400;
   @Input() height = 600;
-  @Input() margins = {'top': 50, 'right': 50, 'bottom': 50, 'left': 50};
+  @Input() margins = {'top': 25, 'right': 50, 'bottom': 25, 'left': 50};
   @Input() data: {}[];
   @Input() x: string;
   @Input() y: string;
@@ -44,21 +44,31 @@ export class BarchartComponent implements OnInit {
 
     const xScale = d3.scaleBand()
       .domain(xData)
-      .range([0, this.chartWidth]);
+      .rangeRound([0, this.chartWidth]);
 
     const yScale = d3.scaleLinear()
       .domain([0, d3.max(yData)])
-      .range([this.chartHeight, 0]);
+      .rangeRound([this.chartHeight, 0]);
 
     chart.append('g')
       .attr('class', 'x-axis')
-      .attr('transform', `translate(${this.margins.left}, ${this.chartHeight})`)
+      .attr('transform', `translate(0, ${this.chartHeight})`)
       .call(d3.axisBottom(xScale));
 
     chart.append('g')
       .attr('class', 'y-axis')
-      .attr('transform', `translate(${this.margins.left}, 0)`)
       .call(d3.axisLeft(yScale));
+
+    chart.selectAll('.bar')
+      .data(this.data)
+      .enter()
+      .append('rect')
+      .attr('class', 'bar')
+      .attr('width', xScale.bandwidth())
+      .attr('height', d => this.chartHeight - yScale(d[this.y]))
+      .attr('y', d => yScale(d[this.y]))
+      .attr('x', d => xScale(d[this.x]));
+
   }
 
   makeChart() {
@@ -68,7 +78,10 @@ export class BarchartComponent implements OnInit {
 
     return d3.select(element).append('svg')
       .attr('width', this.width)
-      .attr('height', this.height);
+      .attr('height', this.height)
+      .append('g')
+      .attr('class', 'chart-canvas')
+      .attr('transform', `translate(${this.margins.left}, ${this.margins.top})`);
   }
 
   getData(axis: string) {
