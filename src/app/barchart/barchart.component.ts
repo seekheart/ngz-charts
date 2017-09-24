@@ -1,7 +1,4 @@
-import {
-  Component, ElementRef, Input, OnInit, ViewChild,
-  ViewEncapsulation
-} from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -18,12 +15,14 @@ export class BarchartComponent implements OnInit {
    * Obtain the settings for making the chart here and define defaults if none
    * are specified
    * */
-  @Input() width = 900;
-  @Input() height = 900;
+  @Input() width = 400;
+  @Input() height = 600;
   @Input() margins = {'top': 50, 'right': 50, 'bottom': 50, 'left': 50};
   @Input() data: {}[];
-  @Input() xData: string;
-  @Input() yData: string;
+  @Input() x: string;
+  @Input() y: string;
+  chartWidth: number;
+  chartHeight: number;
 
   constructor() {
   }
@@ -34,55 +33,51 @@ export class BarchartComponent implements OnInit {
     if (this.data == null) {
       throw new Error('Missing Data!');
     }
+    const chart = this.makeChart();
 
-    this.draw();
+    this.draw(chart);
   }
 
-  draw() {
-    /*TODO: factor making a chart into a service or base component*/
-    const chartWidth = this.width - this.margins.left - this.margins.right;
-    const chartHeight = this.height - this.margins.top - this.margins.bottom;
+  draw(chart) {
+    const xData = this.getData('x');
+    const yData = this.getData('y');
 
-    let xDataArray = this.data.map(el => el[this.xData]);
-    let yDataArray = [0, d3.max(this.data.map(el => el[this.yData]))];
+    const xScale = d3.scaleBand()
+      .domain(xData)
+      .range([0, this.chartWidth]);
 
-    const x = d3.scaleBand()
-              .domain(xDataArray)
-              .rangeRound([0, chartWidth]);
-    const y = d3.scaleLinear()
-              .domain(yDataArray)
-              .range([chartHeight, 0]);
+    const yScale = d3.scaleLinear()
+      .domain([0, d3.max(yData)])
+      .range([this.chartHeight, 0]);
 
-    const xAxis = d3.axisBottom(x);
-    const yAxis = d3.axisLeft(y);
+    chart.append('g')
+      .attr('class', 'x-axis')
+      .attr('transform', `translate(${this.margins.left}, ${this.chartHeight})`)
+      .call(d3.axisBottom(xScale));
 
+    chart.append('g')
+      .attr('class', 'y-axis')
+      .attr('transform', `translate(${this.margins.left}, 0)`)
+      .call(d3.axisLeft(yScale));
+  }
+
+  makeChart() {
+    this.chartWidth = this.width - this.margins.left - this.margins.right;
+    this.chartHeight = this.height - this.margins.top - this.margins.bottom;
     const element = this.chartContainer.nativeElement;
 
-    const chart = d3.select(element)
-      .append('svg')
-      .attr('width', chartWidth)
-      .attr('height', chartHeight)
-      .append('g')
-      .attr('transform', `translate(${this.margins.left}, ${this.margins.top})`);
+    return d3.select(element).append('svg')
+      .attr('width', this.width)
+      .attr('height', this.height);
+  }
 
-    let chartXAxis = chart.append('g')
-                          .attr('class', 'x-axis')
-                          .attr('transform', `translate(0, ${chartHeight})`)
-                          .call(xAxis);
-
-    let chartYAxis = chart.append('g')
-                          .attr('class', 'y-axis')
-                          .attr('transform', `translate(0, ${this.margins.top})`)
-                          .call(yAxis);
-
-    chart.selectAll('.bar')
-      .data(this.data)
-      .enter()
-      .append('rect')
-      .attr('class', 'bar')
-      .attr('x', d => x(d[this.xData]))
-      .attr('width', 5)
-      .attr('y', d => y(d[this.yData]))
-      .attr('height', d => chartHeight);
+  getData(axis: string) {
+    if (axis === 'x'){
+      return this.data.map(d => d[this.x]);
+    } else if (axis === 'y') {
+      return this.data.map(d => d[this.y]);
+    } else {
+      throw Error('Invalid Axis!');
+    }
   }
 }
