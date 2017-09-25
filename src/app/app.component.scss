@@ -1,0 +1,11 @@
+.test-area {
+  width: 1000px;
+  height: 1000px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+app-barchart ::ng-deep .bar{
+  fill: red;
+}
