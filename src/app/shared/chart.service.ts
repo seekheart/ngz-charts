@@ -1,20 +1,26 @@
+/**
+ * @author Mike Tung <miketung2013@gmail.com>
+ * @licence
+ * Copyright Mike Tung All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file
+ */
+
 import * as d3 from 'd3';
-import {Injectable} from '@angular/core';
-import {Chart} from './models/chart';
+import { ElementRef, Injectable } from '@angular/core';
 
 @Injectable()
 export class ChartService {
-  chart: Chart;
 
-  makeChartCanvas(chart: Chart, margins: {}): d3.Selection<any, any, any, any> {
-    const chartWidth = chart.width - margins['left'] - margins['right'];
-    const chartHeight = chart.height - margins['top'] - margins['bottom'];
-    const el = chart.element.nativeElement;
+  makeChartCanvas(element: ElementRef, width: number, height: number, margins: {}): d3.Selection<any, any, any, any> {
+    const el = element.nativeElement;
 
     return d3.select(el)
       .append('svg')
-      .attr('width', chartWidth)
-      .attr('height', chartHeight)
+      .attr('width', width)
+      .attr('height', height)
+      .append('g')
       .attr('class', 'chart-canvas')
       .attr('transform', `translate(${margins['left']}, ${margins['top']})`);
   }

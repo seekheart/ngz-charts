@@ -2,7 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { BarchartComponent} from './barchart';
+import { BarchartComponent } from './barchart';
+import { ChartService } from './shared/chart.service';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,7 @@ import { BarchartComponent} from './barchart';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [ChartService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
