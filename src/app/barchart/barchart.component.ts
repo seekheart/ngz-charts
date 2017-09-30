@@ -1,6 +1,6 @@
 /**
  * @author Mike Tung <miketung2013@gmail.com>
- * @licence
+ * @license
  * Copyright Mike Tung All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
@@ -111,7 +111,7 @@ export class BarchartComponent implements OnInit, OnChanges {
    *
    */
   makeAxis(axis: string, scale): void {
-    if (axis === 'x'){
+    if (axis === 'x') {
       /* This is drawing the x-axis and adding a label*/
       this.chart.append('g')
         .attr('class', 'x-axis')
