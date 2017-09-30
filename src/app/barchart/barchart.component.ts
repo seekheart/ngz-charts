@@ -16,7 +16,7 @@ import {
   ViewChild
 } from '@angular/core';
 import * as d3 from 'd3';
-import { ChartService } from '../shared/chart.service';
+import {ChartService} from '../shared/chart.service';
 
 @Component({
   selector: 'app-barchart',
@@ -30,13 +30,15 @@ export class BarchartComponent implements OnInit, OnChanges {
    * are specified.
    */
   @Input() width = 400;
-  chartWidth = this.width - this.margins.left - this.margins.right;
+  chartWidth: number;
   @Input() height = 600;
-  @Input() margins = {'top': 25, 'right': 50, 'bottom': 25, 'left': 50};
+  @Input() margins = {'top': 50, 'right': 50, 'bottom': 50, 'left': 50};
   @Input() data: {}[];
   @Input() x: string;
   @Input() y: string;
-  chartHeight = this.height - this.margins.top - this.margins.bottom;
+  chartHeight: number;
+  chart: d3.Selection<any, any, any, any>;
+
   /* Get private instance of template to avoid collisions with other charts */
   @ViewChild('barchart') private chartContainer: ElementRef;
 
@@ -49,10 +51,13 @@ export class BarchartComponent implements OnInit, OnChanges {
       throw new Error('Missing Data!');
     }
 
-    const chart = this.chartService.makeChartCanvas(this.chartContainer,
+    this.chartWidth = this.width - this.margins.left - this.margins.right;
+    this.chartHeight = this.height - this.margins.top - this.margins.bottom;
+
+    this.chart = this.chartService.makeChartCanvas(this.chartContainer,
       this.width, this.height, this.margins);
 
-    this.draw(chart);
+    this.draw();
   }
 
   /**
@@ -71,9 +76,9 @@ export class BarchartComponent implements OnInit, OnChanges {
    *
    * @param {d3.Selection} chart - A d3 selection object
    */
-  private draw(chart: d3.Selection<any, any, any, any>) {
-    const xData = this.getData('x');
-    const yData = this.getData('y');
+  private draw() {
+    const xData = this.getData(this.x);
+    const yData = this.getData(this.y);
 
     const xScale = d3.scaleBand()
       .domain(xData)
@@ -83,16 +88,10 @@ export class BarchartComponent implements OnInit, OnChanges {
       .domain([0, d3.max(yData)])
       .rangeRound([this.chartHeight, 0]);
 
-    chart.append('g')
-      .attr('class', 'x-axis')
-      .attr('transform', `translate(0, ${this.chartHeight})`)
-      .call(d3.axisBottom(xScale));
+    this.makeAxis('x', xScale);
+    this.makeAxis('y', yScale);
 
-    chart.append('g')
-      .attr('class', 'y-axis')
-      .call(d3.axisLeft(yScale));
-
-    chart.selectAll('.bar')
+    this.chart.selectAll('.bar')
       .data(this.data)
       .enter()
       .append('rect')
@@ -104,14 +103,50 @@ export class BarchartComponent implements OnInit, OnChanges {
 
   }
 
+  /**
+   * This makes the axes for the chart
+   *
+   * @param {string} axis - the axis type to make
+   * @param {d3.Scale<any>} scale - d3 scale object to scale svg and data
+   *
+   */
+  makeAxis(axis: string, scale): void {
+    if (axis === 'x'){
+      /* This is drawing the x-axis and adding a label*/
+      this.chart.append('g')
+        .attr('class', 'x-axis')
+        .attr('transform', `translate(0, ${this.chartHeight})`)
+        .call(d3.axisBottom(scale));
 
-  getData(axis: string) {
-    if (axis === 'x') {
-      return this.data.map(d => d[this.x]);
+      this.chart
+        .append('text')
+        .attr('transform', `translate(${this.chartWidth / 2}, ${this.chartHeight + this.margins.bottom - 5})`)
+        .text(`${this.x}`);
     } else if (axis === 'y') {
-      return this.data.map(d => d[this.y]);
-    } else {
-      throw Error('Invalid Axis!');
+      /* This is drawing the y-axis and adding a label*/
+      this.chart.append('g')
+        .attr('class', 'y-axis')
+        .call(d3.axisLeft(scale));
+
+      this.chart.append('text')
+        .attr('transform', 'rotate(-90)')
+        .attr('y', `-${this.margins.left}`)
+        .attr('x', `-${this.chartHeight / 2}`)
+        .attr('dy', '1em')
+        .style('text-anchor', 'middle')
+        .text(`${this.y}`);
     }
+  }
+
+
+  /**
+   * This is a method to parse out the data to be visualized
+   *
+   * @param {string} dataElement -  data element to extract out
+   *
+   * @return {array} array of data
+   */
+  getData(dataElement: string): any[] {
+    return this.data.map((d) => d[dataElement]);
   }
 }
