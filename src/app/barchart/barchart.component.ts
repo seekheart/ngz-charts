@@ -16,7 +16,7 @@ import {
   ViewChild
 } from '@angular/core';
 import * as d3 from 'd3';
-import {ChartService} from '../shared/chart.service';
+import { ChartService } from '../shared/chart.service';
 
 @Component({
   selector: 'app-barchart',
