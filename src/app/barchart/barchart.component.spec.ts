@@ -1,9 +1,21 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+/**
+ * @author Mike Tung <miketung2013@gmail.com>
+ * @license
+ * Copyright Mike Tung All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file
+ */
 
-import { BarchartComponent } from './barchart.component';
-import { ChartService } from '../shared/chart.service';
-import { DebugElement } from "@angular/core";
-import { By } from "@angular/platform-browser";
+import {
+  async, ComponentFixture, fakeAsync,
+  TestBed
+} from '@angular/core/testing';
+
+import {BarchartComponent} from './barchart.component';
+import {ChartService} from '../shared/chart.service';
+import {DebugElement} from '@angular/core';
+import {By} from '@angular/platform-browser';
 
 describe('BarchartComponent', () => {
 
@@ -24,21 +36,31 @@ describe('BarchartComponent', () => {
     el = fixture.nativeElement;
   }));
 
-  it('should have a div', () => {
+  it('should have a div for d3 to target', () => {
     expect(de.query(By.css('div'))).toBeTruthy();
   });
 
-  it('should create a svg chart with data', () => {
+  it('should obtain the axis data correctly', () => {
     comp.data = [{'day': 'monday', 'gold': 123}];
     comp.x = 'day';
     comp.y = 'gold';
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(de.query(By.css('svg'))).toBeTruthy();
+    const xData = comp.getData(comp.x);
+    const yData = comp.getData(comp.y);
+
+    expect(xData).toEqual(['monday']);
+    expect(yData).toEqual([123]);
+
+  });
+
+  it('should default values for some parameters', () => {
+    expect(comp.width).toEqual(400);
+    expect(comp.height).toEqual(600);
+    expect(comp.margins).toEqual({
+      'top': 50,
+      'right': 50,
+      'bottom': 50,
+      'left': 50
     });
   });
 
-  it('one plus one is def 2', () => {
-    expect(1 + 1).toBe(2);
-  });
 });

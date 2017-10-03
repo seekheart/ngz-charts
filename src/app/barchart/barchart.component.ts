@@ -30,14 +30,18 @@ export class BarchartComponent implements OnInit, OnChanges {
    * are specified.
    */
   @Input() width = 400;
-  chartWidth: number;
   @Input() height = 600;
   @Input() margins = {'top': 50, 'right': 50, 'bottom': 50, 'left': 50};
   @Input() data: {}[];
   @Input() x: string;
   @Input() y: string;
   chartHeight: number;
+  chartWidth: number;
   chart: d3.Selection<any, any, any, any>;
+  xScale: d3.ScaleBand<any>;
+  yScale: d3.ScaleLinear<any, any>;
+  xData: string[];
+  yData: number[];
 
   /* Get private instance of template to avoid collisions with other charts */
   @ViewChild('barchart') private chartContainer: ElementRef;
@@ -77,29 +81,29 @@ export class BarchartComponent implements OnInit, OnChanges {
    * @param {d3.Selection} chart - A d3 selection object
    */
   private draw() {
-    const xData = this.getData(this.x);
-    const yData = this.getData(this.y);
+    this.xData = this.getData(this.x);
+    this.yData = this.getData(this.y);
 
-    const xScale = d3.scaleBand()
-      .domain(xData)
+    this.xScale = d3.scaleBand()
+      .domain(this.xData)
       .rangeRound([0, this.chartWidth]);
 
-    const yScale = d3.scaleLinear()
-      .domain([0, d3.max(yData)])
+    this.yScale = d3.scaleLinear()
+      .domain([0, d3.max(this.yData)])
       .rangeRound([this.chartHeight, 0]);
 
-    this.makeAxis('x', xScale);
-    this.makeAxis('y', yScale);
+    this.makeAxis('x', this.xScale);
+    this.makeAxis('y', this.yScale);
 
     this.chart.selectAll('.bar')
       .data(this.data)
       .enter()
       .append('rect')
       .attr('class', 'bar')
-      .attr('width', xScale.bandwidth())
-      .attr('height', d => this.chartHeight - yScale(d[this.y]))
-      .attr('y', d => yScale(d[this.y]))
-      .attr('x', d => xScale(d[this.x]));
+      .attr('width', this.xScale.bandwidth())
+      .attr('height', d => this.chartHeight - this.yScale(d[this.y]))
+      .attr('y', d => this.yScale(d[this.y]))
+      .attr('x', d => this.xScale(d[this.x]));
 
   }
 
