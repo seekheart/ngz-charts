@@ -7,15 +7,11 @@
  * found in the LICENSE file
  */
 
-import {
-  async, ComponentFixture, fakeAsync,
-  TestBed
-} from '@angular/core/testing';
-
-import {BarchartComponent} from './barchart.component';
-import {ChartService} from '../shared/chart.service';
-import {DebugElement} from '@angular/core';
-import {By} from '@angular/platform-browser';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BarchartComponent } from './barchart.component';
+import { ChartService } from '../shared/chart.service';
+import { DebugElement } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
 describe('BarchartComponent', () => {
 
@@ -28,7 +24,8 @@ describe('BarchartComponent', () => {
     TestBed.configureTestingModule({
       declarations: [BarchartComponent],
       providers: [ChartService]
-    }).compileComponents();
+    });
+    TestBed.compileComponents();
 
     fixture = TestBed.createComponent(BarchartComponent);
     comp = fixture.componentInstance;
