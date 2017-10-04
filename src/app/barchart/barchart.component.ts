@@ -68,52 +68,10 @@ export class BarchartComponent implements OnInit, OnChanges {
   }
 
   /**
-   * This is the main method to render the bar chart it operates on the d3
-   * selection supplied and appends the scales, bars to the selection.
-   *
-   */
-  private draw() {
-    this.xData = this.getData(this.x);
-    this.yData = this.getData(this.y);
-
-    this.xScale = d3.scaleBand()
-      .domain(this.xData)
-      .rangeRound([0, this.chartWidth]);
-
-    this.yScale = d3.scaleLinear()
-      .domain([0, d3.max(this.yData)])
-      .rangeRound([this.chartHeight, 0]);
-
-    this.makeAxis('x', this.xScale);
-    this.makeAxis('y', this.yScale);
-
-    /**
-     * For transitions, the initial height and y have to be set to the bottom of the chart
-     * before rendering the actual data
-     */
-    this.chart.selectAll('.bar')
-      .data(this.data)
-      .enter()
-      .append('rect')
-      .attr('height', 0)
-      .attr('y', this.chartHeight)
-      .transition()
-      .ease(d3.easeLinear)
-      .duration(1200)
-      .attr('class', 'bar')
-      .attr('width', this.xScale.bandwidth())
-      .attr('x', d => this.xScale(d[this.x]))
-      .attr('y', d => this.yScale(d[this.y]))
-      .attr('height', d => this.chartHeight - this.yScale(d[this.y]));
-
-
-  }
-
-  /**
-   * This makes the axes for the chart
+   * This makes the axes for the chart.
    *
    * @param {string} axis - the axis type to make
-   * @param {d3.Scale<any>} scale - d3 scale object to scale svg and data
+   * @param {object} scale - d3 scale object to scale svg and data
    *
    */
   makeAxis(axis: string, scale): void {
@@ -142,6 +100,48 @@ export class BarchartComponent implements OnInit, OnChanges {
         .style('text-anchor', 'middle')
         .text(`${this.y}`);
     }
+  }
+
+  /**
+   * This is the main method to render the bar chart it operates on the d3
+   * selection supplied and appends the scales, bars to the selection.
+   *
+   */
+  private draw() {
+    this.xData = this.getData(this.x);
+    this.yData = this.getData(this.y);
+
+    this.xScale = d3.scaleBand()
+      .domain(this.xData)
+      .rangeRound([0, this.chartWidth]);
+
+    this.yScale = d3.scaleLinear()
+      .domain([0, d3.max(this.yData)])
+      .rangeRound([this.chartHeight, 0]);
+
+    this.makeAxis('x', this.xScale);
+    this.makeAxis('y', this.yScale);
+
+    /**
+     * We draw the bars into the canvas here. For transitions, the initial height and y have to
+     * be set to the bottom of the chart before rendering the actual data. We animate a rising
+     * effect, the placement of the transition logic drives what actually animates.
+     */
+    this.chart.selectAll('.bar')
+      .data(this.data)
+      .enter()
+      .append('rect')
+      .attr('class', 'bar')
+      .attr('width', this.xScale.bandwidth())
+      .attr('x', d => this.xScale(d[this.x]))
+      .attr('y', this.yScale(0))
+      .attr('height', this.chartHeight - this.yScale(0))
+      .transition()
+      .ease(d3.easeLinear)
+      .duration(880)
+      .attr('y', d => this.yScale(d[this.y]))
+      .attr('height', d => this.chartHeight - this.yScale(d[this.y]));
+
   }
 
 
