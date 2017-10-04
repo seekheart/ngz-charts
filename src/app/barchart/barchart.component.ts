@@ -7,7 +7,10 @@
  * found in the LICENSE file
  */
 
-import { Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import {
+  Component, ElementRef, Input, OnChanges, OnDestroy, OnInit,
+  ViewChild
+} from '@angular/core';
 import * as d3 from 'd3';
 import { ChartService } from '../shared/chart.service';
 
@@ -16,7 +19,7 @@ import { ChartService } from '../shared/chart.service';
   templateUrl: './barchart.component.html',
   styleUrls: ['./barchart.component.scss'],
 })
-export class BarchartComponent implements OnInit, OnChanges {
+export class BarchartComponent implements OnInit, OnChanges, OnDestroy {
 
   /**
    * Obtain the settings for making the chart here and define defaults if none
@@ -51,10 +54,12 @@ export class BarchartComponent implements OnInit, OnChanges {
     this.chartWidth = this.width - this.margins.left - this.margins.right;
     this.chartHeight = this.height - this.margins.top - this.margins.bottom;
 
-    this.chart = this.chartService.makeChartCanvas(this.chartContainer,
-      this.width, this.height, this.margins);
+    this.chart = this.chartService.makeChartCanvas(this.chartContainer, this.width,
+      this.height, this.margins);
 
-    this.draw();
+    if (this.data) {
+      this.draw(this.data);
+    }
   }
 
   /**
@@ -65,6 +70,27 @@ export class BarchartComponent implements OnInit, OnChanges {
   ngOnChanges() {
     this.chartWidth = this.width - this.margins.left - this.margins.right;
     this.chartHeight = this.height - this.margins.top - this.margins.bottom;
+
+    if (this.chart && this.data) {
+      this.draw(this.data);
+    }
+  }
+
+  /* This life cycle hook cleans up the dom when the component is trashed */
+  ngOnDestroy() {
+    this.width = null;
+    this.height = null;
+    this.margins = null;
+    this.data = null;
+    this.x = null;
+    this.y = null;
+    this.chartHeight = null;
+    this.chartWidth = null;
+    this.chart = null;
+    this.xScale = null;
+    this.yScale = null;
+    this.xData = null;
+    this.yData = null;
   }
 
   /**
@@ -105,11 +131,10 @@ export class BarchartComponent implements OnInit, OnChanges {
   /**
    * This is the main method to render the bar chart it operates on the d3
    * selection supplied and appends the scales, bars to the selection.
-   *
    */
-  private draw() {
-    this.xData = this.getData(this.x);
-    this.yData = this.getData(this.y);
+  private draw(dataSet) {
+    this.xData = this.getData(dataSet, this.x);
+    this.yData = this.getData(dataSet, this.y);
 
     this.xScale = d3.scaleBand()
       .domain(this.xData)
@@ -128,7 +153,7 @@ export class BarchartComponent implements OnInit, OnChanges {
      * effect, the placement of the transition logic drives what actually animates.
      */
     this.chart.selectAll('.bar')
-      .data(this.data)
+      .data(dataSet)
       .enter()
       .append('rect')
       .attr('class', 'bar')
@@ -148,11 +173,12 @@ export class BarchartComponent implements OnInit, OnChanges {
   /**
    * This is a method to parse out the data to be visualized
    *
-   * @param {string} dataElement -  data element to extract out
+   * @param {array} data - data array to extract data from
+   * @param {string} dataElement - key data to extract out
    *
    * @return {array} array of data
    */
-  getData(dataElement: string): any[] {
-    return this.data.map((d) => d[dataElement]);
+  getData(data: {}[], dataElement: string): any[] {
+    return data.map((d) => d[dataElement]);
   }
 }
