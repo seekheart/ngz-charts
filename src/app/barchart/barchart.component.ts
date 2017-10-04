@@ -7,14 +7,7 @@
  * found in the LICENSE file
  */
 
-import {
-  Component,
-  ElementRef,
-  Input,
-  OnChanges,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
 import { ChartService } from '../shared/chart.service';
 
@@ -78,7 +71,6 @@ export class BarchartComponent implements OnInit, OnChanges {
    * This is the main method to render the bar chart it operates on the d3
    * selection supplied and appends the scales, bars to the selection.
    *
-   * @param {d3.Selection} chart - A d3 selection object
    */
   private draw() {
     this.xData = this.getData(this.x);
@@ -95,15 +87,25 @@ export class BarchartComponent implements OnInit, OnChanges {
     this.makeAxis('x', this.xScale);
     this.makeAxis('y', this.yScale);
 
+    /**
+     * For transitions, the initial height and y have to be set to the bottom of the chart
+     * before rendering the actual data
+     */
     this.chart.selectAll('.bar')
       .data(this.data)
       .enter()
       .append('rect')
+      .attr('height', 0)
+      .attr('y', this.chartHeight)
+      .transition()
+      .ease(d3.easeLinear)
+      .duration(1200)
       .attr('class', 'bar')
       .attr('width', this.xScale.bandwidth())
-      .attr('height', d => this.chartHeight - this.yScale(d[this.y]))
+      .attr('x', d => this.xScale(d[this.x]))
       .attr('y', d => this.yScale(d[this.y]))
-      .attr('x', d => this.xScale(d[this.x]));
+      .attr('height', d => this.chartHeight - this.yScale(d[this.y]));
+
 
   }
 
