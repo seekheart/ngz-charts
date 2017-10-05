@@ -1,0 +1,14 @@
+.bar-chart-canvas {
+  height: 100%;
+  width: 100%;
+}
+
+::ng-deep .bar {
+  fill: steelblue;
+}
+
+::ng-deep .x-axis, .y-axis {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 100%;
+  font-weight: 400;
+}

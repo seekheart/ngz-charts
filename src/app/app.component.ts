@@ -6,5 +6,29 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'app';
+  testData = [
+    {
+      'day': 'monday',
+      'gold': 1000
+    },
+    {
+      'day': 'tuesday',
+      'gold': 2000
+    },
+    {
+      'day': 'wednesday',
+      'gold': 4500
+    }
+  ];
+
+  testData2 = [
+    {
+      'day': 'Jan',
+      'gold': 4000
+    },
+    {
+      'day': "Feb",
+      'gold': 5500
+    }
+  ];
 }
