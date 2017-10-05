@@ -27,7 +27,7 @@ export class AppComponent {
       'gold': 4000
     },
     {
-      'day': "Feb",
+      'day': 'Feb',
       'gold': 5500
     }
   ];
