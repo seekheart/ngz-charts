@@ -41,8 +41,8 @@ describe('BarchartComponent', () => {
     comp.data = [{'day': 'monday', 'gold': 123}];
     comp.x = 'day';
     comp.y = 'gold';
-    const xData = comp.getData(comp.x);
-    const yData = comp.getData(comp.y);
+    const xData = comp.getData(comp.data, comp.x);
+    const yData = comp.getData(comp.data, comp.y);
 
     expect(xData).toEqual(['monday']);
     expect(yData).toEqual([123]);
