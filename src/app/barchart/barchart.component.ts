@@ -135,13 +135,8 @@ export class BarchartComponent implements OnInit, OnChanges, OnDestroy {
     this.xData = this.dataService.getData(dataSet, this.x);
     this.yData = this.dataService.getData(dataSet, this.y);
 
-    this.xScale = d3.scaleBand()
-      .domain(this.xData)
-      .rangeRound([0, this.chartWidth]);
-
-    this.yScale = d3.scaleLinear()
-      .domain([0, d3.max(this.yData)])
-      .rangeRound([this.chartHeight, 0]);
+    this.xScale = this.dataService.makeScale('categorical', this.xData, this.chartWidth);
+    this.yScale = this.dataService.makeScale('linear', this.yData, this.chartHeight);
 
     this.makeAxis('x', this.xScale);
     this.makeAxis('y', this.yScale);
