@@ -7,7 +7,10 @@
  * found in the LICENSE file
  */
 
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component, ElementRef, Input, OnChanges, OnDestroy, OnInit,
+  ViewChild
+} from '@angular/core';
 import * as d3 from 'd3';
 import { ChartService } from '../shared/chart.service';
 
@@ -16,7 +19,7 @@ import { ChartService } from '../shared/chart.service';
   templateUrl: './scatterplot.component.html',
   styleUrls: ['./scatterplot.component.scss']
 })
-export class ScatterplotComponent implements OnInit {
+export class ScatterplotComponent implements OnInit, OnChanges, OnDestroy {
 
   /**
    * Setup the chart properties and define defaults if none are specified
@@ -57,6 +60,37 @@ export class ScatterplotComponent implements OnInit {
     if (this.data) {
       this.draw(this.data);
     }
+  }
+
+  /**
+   * This life cycle hook tells angular to detect any changes and to adjust
+   * the chart accordingly and also serves to separate out different
+   * instances of the same chart
+   * */
+  ngOnChanges() {
+    this.chartWidth = this.width - this.margins.left - this.margins.right;
+    this.chartHeight = this.height - this.margins.top - this.margins.bottom;
+
+    if (this.chart && this.data) {
+      this.draw(this.data);
+    }
+  }
+
+  /* This life cycle hook cleans up the dom when the component is trashed */
+  ngOnDestroy() {
+    this.width = null;
+    this.height = null;
+    this.margins = null;
+    this.data = null;
+    this.x = null;
+    this.y = null;
+    this.chartHeight = null;
+    this.chartWidth = null;
+    this.chart = null;
+    this.xScale = null;
+    this.yScale = null;
+    this.xData = null;
+    this.yData = null;
   }
 
   /**
