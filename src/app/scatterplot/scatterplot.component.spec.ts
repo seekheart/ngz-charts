@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ScatterplotComponent } from './scatterplot.component';
+import { ChartService } from '../shared/chart.service';
+import { DataService } from '../shared/data.service';
 
 describe('ScatterplotComponent', () => {
   let component: ScatterplotComponent;
@@ -8,7 +10,8 @@ describe('ScatterplotComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ScatterplotComponent]
+      declarations: [ScatterplotComponent],
+      providers: [ChartService, DataService]
     })
       .compileComponents();
   }));
