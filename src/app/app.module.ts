@@ -2,21 +2,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { BarchartComponent } from './barchart';
-import { ChartService } from './shared/chart.service';
-import { ScatterplotComponent } from './scatterplot/scatterplot.component';
-import { DataService } from './shared/data.service';
-
+import { BarchartModule } from '../lib/barchart/barchart.module';
 @NgModule({
   declarations: [
     AppComponent,
-    BarchartComponent,
-    ScatterplotComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    BarchartModule
   ],
-  providers: [ChartService, DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
