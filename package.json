@@ -1,7 +1,19 @@
 {
-  "name": "ng-charts",
-  "version": "0.0.0",
+  "name": "ngz-charts",
+  "version": "1.0.0-alpha.01",
+  "author": "Michael Tung",
+  "description": "An Angular charting library powered by D3",
   "license": "MIT",
+  "homepage": "https://github.com/seekheart/ngz-charts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seekheart/ngz-charts.git"
+  },
+  "bugs": "https://github.com/seekheart/ngz-charts/issues",
+  "keywords": ["d3", "angular", "chart"],
+  "engines": {
+    "node": ">=6.11.4"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -10,7 +22,6 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^4.4.5",
     "@angular/common": "^4.4.5",

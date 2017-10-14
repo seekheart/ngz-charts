@@ -1,4 +1,4 @@
-# ng-charts
+# ngz-charts
 Author: Mike Tung
 
 

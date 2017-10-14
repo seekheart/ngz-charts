@@ -16,7 +16,7 @@ import { ChartService } from '../shared/chart.service';
 import { ScatterplotOptions } from './ScatterplotOptions';
 
 @Component({
-  selector: 'ng-charts-scatterplot',
+  selector: 'ngz-charts-scatterplot',
   templateUrl: './scatterplot.component.html',
   styleUrls: ['./scatterplot.component.scss']
 })
