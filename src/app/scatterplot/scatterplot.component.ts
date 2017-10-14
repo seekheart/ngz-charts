@@ -13,6 +13,7 @@ import {
 } from '@angular/core';
 import * as d3 from 'd3';
 import { ChartService } from '../shared/chart.service';
+import { ScatterplotOptions } from './ScatterplotOptions';
 
 @Component({
   selector: 'ng-charts-scatterplot',
@@ -37,7 +38,7 @@ export class ScatterplotComponent implements OnInit, OnChanges, OnDestroy {
   yScale: d3.ScaleLinear<number, any>;
   xData: number[];
   yData: number[];
-  dataPointShape: string; // TODO change this to use enum as options
+  dataPointShape: ScatterplotOptions;
 
 
   /*Get a reference of a particular instance of the component's template*/
