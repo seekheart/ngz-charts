@@ -102,3 +102,4 @@ typings/
 
 # Outputs
 /release
+.ng_build/

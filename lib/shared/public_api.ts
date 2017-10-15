@@ -7,4 +7,4 @@
  * found in the LICENSE file
  */
 
-export * from './public-api';
+export * from './shared.module';
