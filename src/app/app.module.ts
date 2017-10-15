@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BarchartModule } from '../lib/barchart/barchart.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -13,4 +14,5 @@ import { BarchartModule } from '../lib/barchart/barchart.module';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

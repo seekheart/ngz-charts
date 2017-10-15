@@ -16,6 +16,7 @@ import { ChartService } from '../shared/chart.service';
 import { ScatterplotOptions } from './ScatterplotOptions';
 
 @Component({
+  moduleId: module.id,
   selector: 'ngz-charts-scatterplot',
   templateUrl: './scatterplot.component.html',
   styleUrls: ['./scatterplot.component.scss']

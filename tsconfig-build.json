@@ -1,7 +1,14 @@
 {
+  "angularCompilerOptions": {
+    "strictMetadataEmit": true,
+    "skipTemplateCodegen": true,
+    "flatModuleOutFile": "ngz-charts.js",
+    "flatModuleId": "ngz-charts",
+    "annotateForClosureCompiler": true
+  },
   "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "./release/out-tsc",
+    "outDir": "./release",
     "sourceMap": true,
     "declaration": true,
     "moduleResolution": "node",
@@ -18,5 +25,8 @@
       "es2016",
       "dom"
     ]
-  }
+  },
+  "files": [
+    "./src/lib/index.ts"
+  ]
 }

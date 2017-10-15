@@ -13,6 +13,7 @@ import { ChartService } from '../shared/chart.service';
 import { DataService } from '../shared/data.service';
 
 @Component({
+  moduleId: module.id,
   selector: 'ngz-charts-barchart',
   templateUrl: './barchart.component.html',
   styleUrls: ['./barchart.component.scss'],

@@ -7,5 +7,4 @@
  * found in the LICENSE file
  */
 
-export * from './barchart';
-export * from './scatterplot';
+export * from './public-api';
