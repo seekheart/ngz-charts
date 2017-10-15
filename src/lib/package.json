@@ -1,6 +1,6 @@
 {
   "name": "ngz-charts",
-  "version": "0.0.4a",
+  "version": "0.0.7a",
   "author": "Michael Tung",
   "description": "An Angular charting library powered by D3",
   "license": "MIT",
@@ -18,16 +18,10 @@
   "engines": {
     "node": ">=6.11.4"
   },
+  "module": "index.js",
+  "main": "index.js",
   "peerDependencies": {
-    "@angular/animations": "^4.4.5",
-    "@angular/common": "^4.4.5",
-    "@angular/compiler": "^4.4.5",
     "@angular/core": "^4.4.5",
-    "@angular/forms": "^4.4.5",
-    "@angular/http": "^4.4.5",
-    "@angular/platform-browser": "^4.4.5",
-    "@angular/platform-browser-dynamic": "^4.4.5",
-    "@angular/router": "^4.4.5",
     "core-js": "^2.4.1",
     "d3": "^4.11.0",
     "rxjs": "^5.1.0",
