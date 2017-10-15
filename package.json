@@ -1,6 +1,6 @@
 {
   "name": "ngz-charts",
-  "version": "0.0.6a",
+  "version": "0.0.9a",
   "author": "Michael Tung",
   "description": "An Angular charting library powered by D3",
   "license": "MIT",
@@ -24,7 +24,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "release": "ng-packagr -p ng-package.json"
   },
   "dependencies": {
     "@angular/animations": "^4.4.5",
@@ -38,6 +39,7 @@
     "@angular/router": "^4.4.5",
     "core-js": "^2.4.1",
     "d3": "^4.11.0",
+    "rollup": "^0.50.0",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
   },
@@ -58,6 +60,7 @@
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "ng-packagr": "^1.4.1",
     "protractor": "~5.1.2",
     "ts-node": "~3.0.4",
     "tslint": "~5.3.2",

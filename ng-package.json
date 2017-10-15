@@ -1,0 +1,11 @@
+{
+  "$schema": "./node_modules/ng-packagr/package.schema.json",
+  "src": "src/lib",
+  "dest": "release/ngz-charts",
+  "workingDIrectory": ".ng_build",
+  "ngPackage": {
+    "lib": {
+      "entryFile": "src/public_api.ts"
+    }
+  }
+}
