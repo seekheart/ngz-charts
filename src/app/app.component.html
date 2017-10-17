@@ -1,23 +1,30 @@
 <div class="test-area">
-  <app-barchart [x]="'day'"
-                [y]="'gold'"
-                [data]="testData"
+  <ngz-charts-barchart [x]="'day'"
+                      [y]="'gold'"
+                      [data]="testData"
   >
-  </app-barchart>
+  </ngz-charts-barchart>
 
 
-  <app-barchart [x]="'day'"
+  <ngz-charts-barchart [x]="'day'"
                 [y]="'gold'"
                 [width]="400"
                 [height]="800"
                 [data]="testData2">
-  </app-barchart>
-  <app-barchart [x]="'day'"
+  </ngz-charts-barchart>
+  <ngz-charts-barchart [x]="'day'"
                 [y]="'gold'"
                 [width]="300"
-                [height]="1000"
+                [height]="600"
                 [data]="testData2">
-  </app-barchart>
+  </ngz-charts-barchart>
+  <ngz-charts-scatterplot
+    [data]="testData3"
+    [x]="'x'"
+    [y]="'y'"
+    [dataPointShape]="'circle'">
+
+  </ngz-charts-scatterplot>
 </div>
 
 

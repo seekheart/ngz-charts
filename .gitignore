@@ -99,3 +99,7 @@ typings/
 
 # dotenv environment variables file
 .env
+
+# Outputs
+/release
+.ng_build/

@@ -17,10 +17,10 @@ describe('ChartService', () => {
   let height: number;
   let margins: {};
   let mockElementRef: MockElementRef;
+  let result;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [],
       providers: [ChartService]
     });
     TestBed.compileComponents();
@@ -38,7 +38,7 @@ describe('ChartService', () => {
   });
 
   it('should create a d3 chart selection', () => {
-    const result = chartService.makeChartCanvas(mockElementRef, width, height, margins);
+    result = chartService.makeChartCanvas(mockElementRef, width, height, margins);
     expect(result).toBeTruthy('Expected chart service to make a canvas');
   });
 });

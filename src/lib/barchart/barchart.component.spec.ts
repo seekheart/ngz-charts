@@ -12,6 +12,7 @@ import { BarchartComponent } from './barchart.component';
 import { ChartService } from '../shared/chart.service';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { DataService } from '../shared/data.service';
 
 describe('BarchartComponent', () => {
 
@@ -23,7 +24,7 @@ describe('BarchartComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [BarchartComponent],
-      providers: [ChartService]
+      providers: [ChartService, DataService]
     });
     TestBed.compileComponents();
 
@@ -37,21 +38,10 @@ describe('BarchartComponent', () => {
     expect(de.query(By.css('div'))).toBeTruthy();
   });
 
-  it('should obtain the axis data correctly', () => {
-    comp.data = [{'day': 'monday', 'gold': 123}];
-    comp.x = 'day';
-    comp.y = 'gold';
-    const xData = comp.getData(comp.data, comp.x);
-    const yData = comp.getData(comp.data, comp.y);
 
-    expect(xData).toEqual(['monday']);
-    expect(yData).toEqual([123]);
-
-  });
-
-  it('should default values for some parameters', () => {
+  it('should default values for barchart canvas size', () => {
     expect(comp.width).toEqual(400);
-    expect(comp.height).toEqual(600);
+    expect(comp.height).toEqual(400);
     expect(comp.margins).toEqual({
       'top': 50,
       'right': 50,

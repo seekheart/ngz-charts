@@ -1,6 +1,6 @@
 import { NgChartsPage } from './app.po';
 
-describe('ng-charts App', () => {
+describe('ngz-charts App', () => {
   let page: NgChartsPage;
 
   beforeEach(() => {

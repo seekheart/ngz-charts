@@ -7,26 +7,23 @@
  * found in the LICENSE file
  */
 
-import {
-  Component, ElementRef, Input, OnChanges, OnDestroy, OnInit,
-  ViewChild
-} from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
 import { ChartService } from '../shared/chart.service';
+import { DataService } from '../shared/data.service';
 
 @Component({
-  selector: 'app-barchart',
+  selector: 'ngz-charts-barchart',
   templateUrl: './barchart.component.html',
   styleUrls: ['./barchart.component.scss'],
 })
 export class BarchartComponent implements OnInit, OnChanges, OnDestroy {
 
   /**
-   * Obtain the settings for making the chart here and define defaults if none
-   * are specified.
+   * Obtain the settings for making the chart here and define defaults if none are specified.
    */
   @Input() width = 400;
-  @Input() height = 600;
+  @Input() height = 400;
   @Input() margins = {'top': 50, 'right': 50, 'bottom': 50, 'left': 50};
   @Input() data: {}[];
   @Input() x: string;
@@ -42,7 +39,7 @@ export class BarchartComponent implements OnInit, OnChanges, OnDestroy {
   /* Get private instance of template to avoid collisions with other charts */
   @ViewChild('barchart') private chartContainer: ElementRef;
 
-  constructor(private chartService: ChartService) {
+  constructor(private chartService: ChartService, private dataService: DataService) {
   }
 
   ngOnInit() {
@@ -131,18 +128,15 @@ export class BarchartComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * This is the main method to render the bar chart it operates on the d3
    * selection supplied and appends the scales, bars to the selection.
+   *
+   * @param {array} dataSet - objects to draw data with
    */
-  private draw(dataSet) {
-    this.xData = this.getData(dataSet, this.x);
-    this.yData = this.getData(dataSet, this.y);
+  private draw(dataSet: {}[]): void {
+    this.xData = this.dataService.getData(dataSet, this.x);
+    this.yData = this.dataService.getData(dataSet, this.y);
 
-    this.xScale = d3.scaleBand()
-      .domain(this.xData)
-      .rangeRound([0, this.chartWidth]);
-
-    this.yScale = d3.scaleLinear()
-      .domain([0, d3.max(this.yData)])
-      .rangeRound([this.chartHeight, 0]);
+    this.xScale = this.dataService.makeScale('categorical', this.xData, this.chartWidth);
+    this.yScale = this.dataService.makeScale('linear', this.yData, this.chartHeight, false);
 
     this.makeAxis('x', this.xScale);
     this.makeAxis('y', this.yScale);
@@ -170,15 +164,4 @@ export class BarchartComponent implements OnInit, OnChanges, OnDestroy {
   }
 
 
-  /**
-   * This is a method to parse out the data to be visualized
-   *
-   * @param {array} data - data array to extract data from
-   * @param {string} dataElement - key data to extract out
-   *
-   * @return {array} array of data
-   */
-  getData(data: {}[], dataElement: string): any[] {
-    return data.map((d) => d[dataElement]);
-  }
 }
