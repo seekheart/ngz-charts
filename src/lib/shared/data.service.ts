@@ -37,20 +37,23 @@ export class DataService {
    *
    * @return {object} d3 scale object
    */
-  makeScale(scaleType: string, data: any[], measure: number) {
+  makeScale(scaleType: string, data: any[], measure: number, ordered: boolean = true) {
     const scaleOptions = {
-      'linear': this.makeLinearScale(data, measure),
-      'categorical': this.makeCategoricalScale(data, measure),
+      'linear': this.makeLinearScale(data, measure, ordered),
+      'categorical': this.makeCategoricalScale(data, measure, ordered),
     };
 
     return scaleOptions[scaleType];
   }
 
-  private makeLinearScale(data: number[], measure: number) {
+  private makeLinearScale(data: number[], measure: number, ordered: boolean = true) {
+    if (ordered) {
+      return d3.scaleLinear().domain([0, d3.max(data)]).rangeRound([0, measure]);
+    }
     return d3.scaleLinear().domain([0, d3.max(data)]).rangeRound([measure, 0]);
   }
 
-  private makeCategoricalScale(data: any[], measure: number) {
+  private makeCategoricalScale(data: any[], measure: number, ordered: boolean = true) {
     return d3.scaleBand().domain(data).rangeRound([0, measure]);
   }
 }

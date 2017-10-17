@@ -39,9 +39,9 @@ describe('BarchartComponent', () => {
   });
 
 
-  it('should default values for some parameters', () => {
+  it('should default values for barchart canvas size', () => {
     expect(comp.width).toEqual(400);
-    expect(comp.height).toEqual(600);
+    expect(comp.height).toEqual(400);
     expect(comp.margins).toEqual({
       'top': 50,
       'right': 50,

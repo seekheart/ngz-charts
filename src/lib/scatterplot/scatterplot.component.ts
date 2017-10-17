@@ -14,6 +14,7 @@ import {
 import * as d3 from 'd3';
 import { ChartService } from '../shared/chart.service';
 import { ScatterplotOptions } from './ScatterplotOptions';
+import { DataService } from '../shared/data.service';
 
 @Component({
   selector: 'ngz-charts-scatterplot',
@@ -25,12 +26,14 @@ export class ScatterplotComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * Setup the chart properties and define defaults if none are specified
    */
-  @Input() width = 400;
+  @Input() width = 600;
   @Input() height = 600;
   @Input() margins = {'top': 50, 'right': 50, 'bottom': 50, 'left': 50};
   @Input() data: {}[];
   @Input() x: string;
   @Input() y: string;
+  @Input() dotSize = 5;
+  @Input() dataPointShape: ScatterplotOptions;
   chartHeight: number;
   chartWidth: number;
   chart: d3.Selection<any, any, any, any>;
@@ -38,13 +41,12 @@ export class ScatterplotComponent implements OnInit, OnChanges, OnDestroy {
   yScale: d3.ScaleLinear<number, any>;
   xData: number[];
   yData: number[];
-  dataPointShape: ScatterplotOptions;
 
 
   /*Get a reference of a particular instance of the component's template*/
   @ViewChild('scatterplot') chartContainer: ElementRef;
 
-  constructor(private chartService: ChartService) {
+  constructor(private chartService: ChartService, private dataService: DataService) {
   }
 
   ngOnInit() {
@@ -99,7 +101,58 @@ export class ScatterplotComponent implements OnInit, OnChanges, OnDestroy {
    * on the reference element supplied from view child
    */
   private draw(dataSet: {}[]): void {
+    this.xData = this.dataService.getData(dataSet, this.x);
+    this.yData = this.dataService.getData(dataSet, this.y);
 
+    this.xScale = this.dataService.makeScale('linear', this.xData, this.chartWidth);
+    this.yScale = this.dataService.makeScale('linear', this.yData, this.chartHeight);
+
+    this.makeAxis('x', this.xScale);
+    this.makeAxis('y', this.yScale);
+
+    this.chart.selectAll('.scatterplot-data')
+      .data(dataSet)
+      .enter()
+      .append(this.dataPointShape)
+      .attr('class', 'scatterplot-data')
+      .attr('r', this.dotSize)
+      .attr('cx', (d) => this.xScale(d[this.x]))
+      .attr('cy', (d) => this.yScale(d[this.y]));
+  }
+
+  /**
+   * This makes the axes for the chart.
+   *
+   * @param {string} axis - the axis type to make
+   * @param {object} scale - d3 scale object to scale svg and data
+   *
+   */
+  makeAxis(axis: string, scale): void {
+    if (axis === 'x') {
+      /* This is drawing the x-axis and adding a label*/
+      this.chart.append('g')
+        .attr('class', 'x-axis')
+        .attr('transform', `translate(0, ${this.chartHeight})`)
+        .call(d3.axisBottom(scale));
+
+      this.chart
+        .append('text')
+        .attr('transform', `translate(${this.chartWidth / 2}, ${this.chartHeight + this.margins.bottom - 5})`)
+        .text(`${this.x}`);
+    } else if (axis === 'y') {
+      /* This is drawing the y-axis and adding a label*/
+      this.chart.append('g')
+        .attr('class', 'y-axis')
+        .call(d3.axisLeft(scale));
+
+      this.chart.append('text')
+        .attr('transform', 'rotate(-90)')
+        .attr('y', `-${this.margins.left}`)
+        .attr('x', `-${this.chartHeight / 2}`)
+        .attr('dy', '1em')
+        .style('text-anchor', 'middle')
+        .text(`${this.y}`);
+    }
   }
 
 }

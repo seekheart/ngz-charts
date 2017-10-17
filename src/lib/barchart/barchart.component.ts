@@ -23,7 +23,7 @@ export class BarchartComponent implements OnInit, OnChanges, OnDestroy {
    * Obtain the settings for making the chart here and define defaults if none are specified.
    */
   @Input() width = 400;
-  @Input() height = 600;
+  @Input() height = 400;
   @Input() margins = {'top': 50, 'right': 50, 'bottom': 50, 'left': 50};
   @Input() data: {}[];
   @Input() x: string;
@@ -136,7 +136,7 @@ export class BarchartComponent implements OnInit, OnChanges, OnDestroy {
     this.yData = this.dataService.getData(dataSet, this.y);
 
     this.xScale = this.dataService.makeScale('categorical', this.xData, this.chartWidth);
-    this.yScale = this.dataService.makeScale('linear', this.yData, this.chartHeight);
+    this.yScale = this.dataService.makeScale('linear', this.yData, this.chartHeight, false);
 
     this.makeAxis('x', this.xScale);
     this.makeAxis('y', this.yScale);

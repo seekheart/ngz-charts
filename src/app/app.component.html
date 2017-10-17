@@ -15,9 +15,16 @@
   <ngz-charts-barchart [x]="'day'"
                 [y]="'gold'"
                 [width]="300"
-                [height]="1000"
+                [height]="600"
                 [data]="testData2">
   </ngz-charts-barchart>
+  <ngz-charts-scatterplot
+    [data]="testData3"
+    [x]="'x'"
+    [y]="'y'"
+    [dataPointShape]="'circle'">
+
+  </ngz-charts-scatterplot>
 </div>
 
 

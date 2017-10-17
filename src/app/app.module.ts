@@ -2,7 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { BarchartModule } from '../../lib/barchart/barchart.module';
+import { BarchartModule } from '../lib/barchart/barchart.module';
+import { ScatterplotModule } from '../lib/scatterplot/scatterplot.module';
 
 @NgModule({
   declarations: [
@@ -10,7 +11,8 @@ import { BarchartModule } from '../../lib/barchart/barchart.module';
   ],
   imports: [
     BrowserModule,
-    BarchartModule
+    BarchartModule,
+    ScatterplotModule
   ],
   bootstrap: [AppComponent]
 })
