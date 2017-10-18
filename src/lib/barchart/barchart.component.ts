@@ -11,6 +11,7 @@ import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, ViewChild }
 import * as d3 from 'd3';
 import { ChartService } from '../shared/chart.service';
 import { DataService } from '../shared/data.service';
+import { Tooltip } from '../shared/models/tooltip';
 
 @Component({
   selector: 'ngz-charts-barchart',
@@ -35,6 +36,8 @@ export class BarchartComponent implements OnInit, OnChanges, OnDestroy {
   yScale: d3.ScaleLinear<any, any>;
   xData: string[];
   yData: number[];
+  private tooltipLabels: Tooltip;
+  private tooltipBox: d3.Selection<any, any, any, any>;
 
   /* Get private instance of template to avoid collisions with other charts */
   @ViewChild('barchart') private chartContainer: ElementRef;
@@ -50,6 +53,11 @@ export class BarchartComponent implements OnInit, OnChanges, OnDestroy {
 
     this.chartWidth = this.width - this.margins.left - this.margins.right;
     this.chartHeight = this.height - this.margins.top - this.margins.bottom;
+
+    this.tooltipBox = d3.select(this.chartContainer.nativeElement)
+      .append('div')
+      .attr('class', 'tooltip')
+      .style('opacity', 0);
 
     this.chart = this.chartService.makeChartCanvas(this.chartContainer, this.width,
       this.height, this.margins);
@@ -155,12 +163,25 @@ export class BarchartComponent implements OnInit, OnChanges, OnDestroy {
       .attr('x', d => this.xScale(d[this.x]))
       .attr('y', this.yScale(0))
       .attr('height', this.chartHeight - this.yScale(0))
+      .on('mouseover', (d) => {
+        this.tooltipBox
+          .transition()
+          .duration(200)
+          .style('opacity', 0.9);
+        this.tooltipBox.html(`<p>x: ${d[this.x]}<br/>y: ${d[this.y]}</p>`)
+          .style('left', `${<any>d3.event.pageX}px`)
+          .style('top', `${<any>d3.event.pageY}px`);
+      })
+      .on(<any>'mouseout', (d) => {
+        this.tooltipBox.transition()
+          .duration(500)
+          .style('opacity', 0);
+      })
       .transition()
       .ease(d3.easeLinear)
       .duration(880)
       .attr('y', d => this.yScale(d[this.y]))
       .attr('height', d => this.chartHeight - this.yScale(d[this.y]));
-
   }
 
 
