@@ -13,7 +13,7 @@ import { Selection } from 'd3';
 import { Tooltip } from './models/tooltip';
 
 @Injectable()
-export class TooltipService {
+export class ToolTipService {
 
   /**
    * A method to add tooltips to a d3 selection object, tooltip will show x, y datapoints and

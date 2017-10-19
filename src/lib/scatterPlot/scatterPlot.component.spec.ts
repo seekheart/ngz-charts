@@ -13,6 +13,7 @@ import { ScatterPlotComponent } from './scatterPlot.component';
 import { ChartService } from '../shared/chart.service';
 import { DataService } from '../shared/data.service';
 import { By } from '@angular/platform-browser';
+import { ToolTipService } from '../shared/tooltip.service';
 
 describe('ScatterPlotComponent', () => {
   let comp: ScatterPlotComponent;
@@ -23,7 +24,7 @@ describe('ScatterPlotComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ScatterPlotComponent],
-      providers: [ChartService, DataService]
+      providers: [ChartService, DataService, ToolTipService]
     });
     TestBed.compileComponents();
 
@@ -31,7 +32,6 @@ describe('ScatterPlotComponent', () => {
     comp = fixture.componentInstance;
     de = fixture.debugElement;
     el = fixture.nativeElement;
-    fixture.detectChanges();
   }));
 
   it('should create a div for d3 to target', () => {

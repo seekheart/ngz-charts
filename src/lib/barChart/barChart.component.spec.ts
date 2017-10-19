@@ -13,6 +13,7 @@ import { ChartService } from '../shared/chart.service';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { DataService } from '../shared/data.service';
+import { ToolTipService } from '../shared/tooltip.service';
 
 describe('BarChartComponent', () => {
 
@@ -24,7 +25,7 @@ describe('BarChartComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [BarChartComponent],
-      providers: [ChartService, DataService]
+      providers: [ChartService, DataService, ToolTipService]
     });
     TestBed.compileComponents();
 

@@ -20,7 +20,7 @@ import * as d3 from 'd3';
 import { ChartService } from '../shared/chart.service';
 import { DataService } from '../shared/data.service';
 import { Tooltip } from '../shared/models/tooltip';
-import { TooltipService } from '../shared/tooltip.service';
+import { ToolTipService } from '../shared/tooltip.service';
 
 @Component({
   selector: 'ngz-charts-barchart',
@@ -50,7 +50,7 @@ export class BarChartComponent implements OnInit, OnChanges, OnDestroy {
   /* Get private instance of template to avoid collisions with other charts */
   @ViewChild('barChart') private chartContainer: ElementRef;
 
-  constructor(private chartService: ChartService, private dataService: DataService, private tooltipService: TooltipService) {
+  constructor(private chartService: ChartService, private dataService: DataService, private tooltipService: ToolTipService) {
   }
 
   ngOnInit() {
