@@ -24,10 +24,10 @@ import { TooltipService } from '../shared/tooltip.service';
 
 @Component({
   selector: 'ngz-charts-barchart',
-  templateUrl: './barchart.component.html',
-  styleUrls: ['./barchart.component.scss']
+  templateUrl: './barChart.component.html',
+  styleUrls: ['./barChart.component.scss']
 })
-export class BarchartComponent implements OnInit, OnChanges, OnDestroy {
+export class BarChartComponent implements OnInit, OnChanges, OnDestroy {
 
   /**
    * Obtain the settings for making the chart here and define defaults if none are specified.
@@ -48,7 +48,7 @@ export class BarchartComponent implements OnInit, OnChanges, OnDestroy {
   private tooltipLabels: Tooltip;
 
   /* Get private instance of template to avoid collisions with other charts */
-  @ViewChild('barchart') private chartContainer: ElementRef;
+  @ViewChild('barChart') private chartContainer: ElementRef;
 
   constructor(private chartService: ChartService, private dataService: DataService, private tooltipService: TooltipService) {
   }

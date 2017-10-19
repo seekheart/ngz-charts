@@ -7,5 +7,5 @@
  * found in the LICENSE file
  */
 
-export * from './scatterplot.component';
-export * from './scatterplot.module';
+export * from './scatterPlot.component';
+export * from './scatterPlot.module';

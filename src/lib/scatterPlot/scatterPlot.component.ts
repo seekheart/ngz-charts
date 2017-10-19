@@ -13,15 +13,17 @@ import {
 } from '@angular/core';
 import * as d3 from 'd3';
 import { ChartService } from '../shared/chart.service';
-import { ScatterplotOptions } from './ScatterplotOptions';
+import { ScatterplotOptions } from './ScatterPlotOptions';
 import { DataService } from '../shared/data.service';
+import { TooltipService } from '../shared/tooltip.service';
+import { Tooltip } from '../shared/models/tooltip';
 
 @Component({
   selector: 'ngz-charts-scatterplot',
   templateUrl: './scatterplot.component.html',
   styleUrls: ['./scatterplot.component.scss']
 })
-export class ScatterplotComponent implements OnInit, OnChanges, OnDestroy {
+export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
 
   /**
    * Setup the chart properties and define defaults if none are specified
@@ -33,7 +35,7 @@ export class ScatterplotComponent implements OnInit, OnChanges, OnDestroy {
   @Input() x: string;
   @Input() y: string;
   @Input() dotSize = 5;
-  @Input() dataPointShape: ScatterplotOptions;
+  @Input() dataPointShape: ScatterplotOptions = 'circle';
   chartHeight: number;
   chartWidth: number;
   chart: d3.Selection<any, any, any, any>;
@@ -41,12 +43,13 @@ export class ScatterplotComponent implements OnInit, OnChanges, OnDestroy {
   yScale: d3.ScaleLinear<number, any>;
   xData: number[];
   yData: number[];
+  private tooltipLabels: Tooltip;
 
 
   /*Get a reference of a particular instance of the component's template*/
-  @ViewChild('scatterplot') chartContainer: ElementRef;
+  @ViewChild('scatterPlot') chartContainer: ElementRef;
 
-  constructor(private chartService: ChartService, private dataService: DataService) {
+  constructor(private chartService: ChartService, private dataService: DataService, private  tooltipService: TooltipService) {
   }
 
   ngOnInit() {
@@ -56,6 +59,8 @@ export class ScatterplotComponent implements OnInit, OnChanges, OnDestroy {
 
     this.chartWidth = this.width - this.margins.left - this.margins.right;
     this.chartHeight = this.height - this.margins.top - this.margins.bottom;
+
+    this.tooltipLabels = new Tooltip(this.x, this.y);
 
     this.chart = this.chartService.makeChartCanvas(this.chartContainer, this.width,
       this.height, this.margins);
@@ -73,6 +78,7 @@ export class ScatterplotComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges() {
     this.chartWidth = this.width - this.margins.left - this.margins.right;
     this.chartHeight = this.height - this.margins.top - this.margins.bottom;
+    this.tooltipLabels = new Tooltip(this.x, this.y);
 
     if (this.chart && this.data) {
       this.draw(this.data);
@@ -97,8 +103,10 @@ export class ScatterplotComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   /**
-   * Main function to draw the scatterplot, it requires a dataset in order to draw
+   * Main function to draw the scatter plot, it requires a dataset in order to draw
    * on the reference element supplied from view child
+   *
+   * @param{Array<object>} dataSet - data objects in an array.
    */
   private draw(dataSet: {}[]): void {
     this.xData = this.dataService.getData(dataSet, this.x);
@@ -110,14 +118,16 @@ export class ScatterplotComponent implements OnInit, OnChanges, OnDestroy {
     this.makeAxis('x', this.xScale);
     this.makeAxis('y', this.yScale);
 
-    this.chart.selectAll('.scatterplot-data')
+    const svg = this.chart.selectAll('.scatter-plot-data')
       .data(dataSet)
       .enter()
       .append(this.dataPointShape)
-      .attr('class', 'scatterplot-data')
+      .attr('class', 'scatter-plot-data')
       .attr('r', this.dotSize)
       .attr('cx', (d) => this.xScale(d[this.x]))
       .attr('cy', (d) => this.yScale(d[this.y]));
+
+    this.tooltipService.addTooltip(svg, this.tooltipLabels, this.chartContainer);
   }
 
   /**

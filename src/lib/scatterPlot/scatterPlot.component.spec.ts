@@ -8,40 +8,39 @@
  */
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { BarchartComponent } from './barchart.component';
+
+import { ScatterPlotComponent } from './scatterPlot.component';
 import { ChartService } from '../shared/chart.service';
-import { DebugElement } from '@angular/core';
-import { By } from '@angular/platform-browser';
 import { DataService } from '../shared/data.service';
+import { By } from '@angular/platform-browser';
 
-describe('BarchartComponent', () => {
-
-  let comp: BarchartComponent;
-  let fixture: ComponentFixture<BarchartComponent>;
-  let de: DebugElement;
-  let el: HTMLElement;
+describe('ScatterPlotComponent', () => {
+  let comp: ScatterPlotComponent;
+  let fixture: ComponentFixture<ScatterPlotComponent>;
+  let de;
+  let el;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [BarchartComponent],
+      declarations: [ScatterPlotComponent],
       providers: [ChartService, DataService]
     });
     TestBed.compileComponents();
 
-    fixture = TestBed.createComponent(BarchartComponent);
+    fixture = TestBed.createComponent(ScatterPlotComponent);
     comp = fixture.componentInstance;
     de = fixture.debugElement;
     el = fixture.nativeElement;
+    fixture.detectChanges();
   }));
 
-  it('should have a div for d3 to target', () => {
+  it('should create a div for d3 to target', () => {
     expect(de.query(By.css('div'))).toBeTruthy();
   });
 
-
-  it('should default values for barchart canvas size', () => {
-    expect(comp.width).toEqual(400);
-    expect(comp.height).toEqual(400);
+  it('should default values for scatterPlot chart size', () => {
+    expect(comp.width).toEqual(600);
+    expect(comp.height).toEqual(600);
     expect(comp.margins).toEqual({
       'top': 50,
       'right': 50,
@@ -49,5 +48,4 @@ describe('BarchartComponent', () => {
       'left': 50
     });
   });
-
 });
