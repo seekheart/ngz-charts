@@ -8,4 +8,3 @@
  */
 
 export * from './barChart.module';
-export * from './barChart.component';
