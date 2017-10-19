@@ -8,7 +8,12 @@
  */
 
 import {
-  Component, ElementRef, Input, OnChanges, OnDestroy, OnInit,
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
   ViewChild
 } from '@angular/core';
 import * as d3 from 'd3';
@@ -20,8 +25,8 @@ import { Tooltip } from '../shared/models/tooltip';
 
 @Component({
   selector: 'ngz-charts-scatterplot',
-  templateUrl: './scatterplot.component.html',
-  styleUrls: ['./scatterplot.component.scss']
+  templateUrl: './scatterPlot.component.html',
+  styleUrls: ['./scatterPlot.component.scss']
 })
 export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
 
@@ -49,7 +54,8 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
   /*Get a reference of a particular instance of the component's template*/
   @ViewChild('scatterPlot') chartContainer: ElementRef;
 
-  constructor(private chartService: ChartService, private dataService: DataService, private  tooltipService: ToolTipService) {
+  constructor(private chartService: ChartService, private dataService: DataService,
+              private  tooltipService: ToolTipService) {
   }
 
   ngOnInit() {
@@ -145,9 +151,10 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
         .attr('transform', `translate(0, ${this.chartHeight})`)
         .call(d3.axisBottom(scale));
 
+      const movement = `${this.chartWidth / 2}, ${this.chartHeight + this.margins.bottom - 5}`;
       this.chart
         .append('text')
-        .attr('transform', `translate(${this.chartWidth / 2}, ${this.chartHeight + this.margins.bottom - 5})`)
+        .attr('transform', `translate()`)
         .text(`${this.x}`);
     } else if (axis === 'y') {
       /* This is drawing the y-axis and adding a label*/

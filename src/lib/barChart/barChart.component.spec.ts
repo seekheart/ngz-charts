@@ -44,10 +44,10 @@ describe('BarChartComponent', () => {
     expect(comp.width).toEqual(400);
     expect(comp.height).toEqual(400);
     expect(comp.margins).toEqual({
-      'top': 50,
-      'right': 50,
-      'bottom': 50,
-      'left': 50
+      'top': 60,
+      'right': 60,
+      'bottom': 60,
+      'left': 60
     });
   });
 

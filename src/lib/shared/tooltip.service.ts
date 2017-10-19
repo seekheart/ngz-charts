@@ -24,7 +24,8 @@ export class ToolTipService {
    * @param {ElementRef} refElement - Reference to the component DOM template that svg is working on
    *
    */
-  addTooltip(selection: d3.Selection<any, any, any, any>, labelKeys: Tooltip, refElement: ElementRef) {
+  addTooltip(selection: d3.Selection<any, any, any, any>, labelKeys: Tooltip,
+             refElement: ElementRef) {
     const tooltipBoxContainer = refElement.nativeElement;
     const tooltipBox = d3.select(tooltipBoxContainer)
       .append('div')
@@ -40,9 +41,10 @@ export class ToolTipService {
           .duration(200)
           .style('opacity', 0.95);
         if (labelKeys.message !== null) {
-          box = tooltipBox.html(`<p>${content}<br/>${labelKeys.message}: ${d[labelKeys.message]}</p>`);
+          const message = `${labelKeys.message}: ${d[labelKeys.message]}`;
+          box = tooltipBox.html(`<p>${content}<br/>${message}</p>`);
         } else {
-          box = tooltipBox.html(`<p>${content}</p>`)
+          box = tooltipBox.html(`<p>${content}</p>`);
         }
 
         box
@@ -51,14 +53,15 @@ export class ToolTipService {
           .style('position', 'absolute')
           .style('text-align', 'center')
           .style('width', '6%')
-          .style('height', '4%')
-          .style('padding', '10px 5px')
+          .style('height', '8%')
+          .style('padding', '5px')
+          .style('line-height', 1)
           .style('font-family', 'sans-serif')
+          .style('font-size', '1em')
           .style('color', '#fff')
           .style('background', 'lightsteelblue')
           .style('border', 0)
           .style('word-wrap', 'break-word')
-          .style('white-space', 'normal')
           .style('overflow', 'hidden')
           .style('border-radius', '8px')
           .style('pointer-events', 'none');

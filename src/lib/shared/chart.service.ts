@@ -23,7 +23,8 @@ export class ChartService {
    *
    * @return {object} d3 selection object to act on for drawing charts
    */
-  makeChartCanvas(element: ElementRef, width: number, height: number, margins: {}): d3.Selection<any, any, any, any> {
+  makeChartCanvas(element: ElementRef, width: number,
+                  height: number, margins: {}): d3.Selection<any, any, any, any> {
     const el = element.nativeElement;
 
     return d3.select(el)

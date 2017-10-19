@@ -34,7 +34,7 @@ export class BarChartComponent implements OnInit, OnChanges, OnDestroy {
    */
   @Input() width = 400;
   @Input() height = 400;
-  @Input() margins = {'top': 50, 'right': 50, 'bottom': 50, 'left': 50};
+  @Input() margins = {'top': 60, 'right': 60, 'bottom': 60, 'left': 60};
   @Input() data: {}[];
   @Input() x: string;
   @Input() y: string;
@@ -50,7 +50,8 @@ export class BarChartComponent implements OnInit, OnChanges, OnDestroy {
   /* Get private instance of template to avoid collisions with other charts */
   @ViewChild('barChart') private chartContainer: ElementRef;
 
-  constructor(private chartService: ChartService, private dataService: DataService, private tooltipService: ToolTipService) {
+  constructor(private chartService: ChartService, private dataService: DataService,
+              private tooltipService: ToolTipService) {
   }
 
   ngOnInit() {
@@ -117,9 +118,10 @@ export class BarChartComponent implements OnInit, OnChanges, OnDestroy {
         .attr('transform', `translate(0, ${this.chartHeight})`)
         .call(d3.axisBottom(scale));
 
+      const movement = `${this.chartWidth / 2}, ${this.chartHeight + this.margins.bottom - 5}`;
       this.chart
         .append('text')
-        .attr('transform', `translate(${this.chartWidth / 2}, ${this.chartHeight + this.margins.bottom - 5})`)
+        .attr('transform', `translate(${movement})`)
         .text(`${this.x}`);
     } else if (axis === 'y') {
       /* This is drawing the y-axis and adding a label*/
