@@ -154,7 +154,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       const movement = `${this.chartWidth / 2}, ${this.chartHeight + this.margins.bottom - 5}`;
       this.chart
         .append('text')
-        .attr('transform', `translate()`)
+        .attr('transform', `translate(${movement})`)
         .text(`${this.x}`);
     } else if (axis === 'y') {
       /* This is drawing the y-axis and adding a label*/
