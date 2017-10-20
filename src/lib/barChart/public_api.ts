@@ -7,5 +7,4 @@
  * found in the LICENSE file
  */
 
-export * from './barchart.module';
-export * from './barchart.component';
+export * from './barChart.module';

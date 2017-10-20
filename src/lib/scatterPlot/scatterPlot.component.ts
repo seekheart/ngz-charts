@@ -7,49 +7,66 @@
  * found in the LICENSE file
  */
 
-import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import * as d3 from 'd3';
 import { ChartService } from '../shared/chart.service';
+import { ScatterplotOptions } from './ScatterPlotOptions';
 import { DataService } from '../shared/data.service';
+import { ToolTipService } from '../shared/tooltip.service';
+import { Tooltip } from '../shared/models/tooltip';
 
 @Component({
-  selector: 'ngz-charts-barchart',
-  templateUrl: './barchart.component.html',
-  styleUrls: ['./barchart.component.scss'],
+  selector: 'ngz-charts-scatterplot',
+  templateUrl: './scatterPlot.component.html',
+  styleUrls: ['./scatterPlot.component.scss']
 })
-export class BarchartComponent implements OnInit, OnChanges, OnDestroy {
+export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
 
   /**
-   * Obtain the settings for making the chart here and define defaults if none are specified.
+   * Setup the chart properties and define defaults if none are specified
    */
-  @Input() width = 400;
-  @Input() height = 400;
+  @Input() width = 600;
+  @Input() height = 600;
   @Input() margins = {'top': 50, 'right': 50, 'bottom': 50, 'left': 50};
   @Input() data: {}[];
   @Input() x: string;
   @Input() y: string;
+  @Input() dotSize = 5;
+  @Input() dataPointShape: ScatterplotOptions = 'circle';
   chartHeight: number;
   chartWidth: number;
   chart: d3.Selection<any, any, any, any>;
-  xScale: d3.ScaleBand<any>;
-  yScale: d3.ScaleLinear<any, any>;
-  xData: string[];
+  xScale: d3.ScaleLinear<number, any>;
+  yScale: d3.ScaleLinear<number, any>;
+  xData: number[];
   yData: number[];
+  private tooltipLabels: Tooltip;
 
-  /* Get private instance of template to avoid collisions with other charts */
-  @ViewChild('barchart') private chartContainer: ElementRef;
 
-  constructor(private chartService: ChartService, private dataService: DataService) {
+  /*Get a reference of a particular instance of the component's template*/
+  @ViewChild('scatterPlot') chartContainer: ElementRef;
+
+  constructor(private chartService: ChartService, private dataService: DataService,
+              private  tooltipService: ToolTipService) {
   }
 
   ngOnInit() {
-    /*Check if data is given if not die*/
-    if (this.data == null) {
-      throw new Error('Missing Data!');
+    if (this.data === null) {
+      throw new Error('No Data supplied!!');
     }
 
     this.chartWidth = this.width - this.margins.left - this.margins.right;
     this.chartHeight = this.height - this.margins.top - this.margins.bottom;
+
+    this.tooltipLabels = new Tooltip(this.x, this.y);
 
     this.chart = this.chartService.makeChartCanvas(this.chartContainer, this.width,
       this.height, this.margins);
@@ -67,6 +84,7 @@ export class BarchartComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges() {
     this.chartWidth = this.width - this.margins.left - this.margins.right;
     this.chartHeight = this.height - this.margins.top - this.margins.bottom;
+    this.tooltipLabels = new Tooltip(this.x, this.y);
 
     if (this.chart && this.data) {
       this.draw(this.data);
@@ -91,6 +109,34 @@ export class BarchartComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   /**
+   * Main function to draw the scatter plot, it requires a dataset in order to draw
+   * on the reference element supplied from view child
+   *
+   * @param{Array<object>} dataSet - data objects in an array.
+   */
+  private draw(dataSet: {}[]): void {
+    this.xData = this.dataService.getData(dataSet, this.x);
+    this.yData = this.dataService.getData(dataSet, this.y);
+
+    this.xScale = this.dataService.makeScale('linear', this.xData, this.chartWidth);
+    this.yScale = this.dataService.makeScale('linear', this.yData, this.chartHeight);
+
+    this.makeAxis('x', this.xScale);
+    this.makeAxis('y', this.yScale);
+
+    const svg = this.chart.selectAll('.scatter-plot-data')
+      .data(dataSet)
+      .enter()
+      .append(this.dataPointShape)
+      .attr('class', 'scatter-plot-data')
+      .attr('r', this.dotSize)
+      .attr('cx', (d) => this.xScale(d[this.x]))
+      .attr('cy', (d) => this.yScale(d[this.y]));
+
+    this.tooltipService.addTooltip(svg, this.tooltipLabels, this.chartContainer);
+  }
+
+  /**
    * This makes the axes for the chart.
    *
    * @param {string} axis - the axis type to make
@@ -105,9 +151,10 @@ export class BarchartComponent implements OnInit, OnChanges, OnDestroy {
         .attr('transform', `translate(0, ${this.chartHeight})`)
         .call(d3.axisBottom(scale));
 
+      const movement = `${this.chartWidth / 2}, ${this.chartHeight + this.margins.bottom - 5}`;
       this.chart
         .append('text')
-        .attr('transform', `translate(${this.chartWidth / 2}, ${this.chartHeight + this.margins.bottom - 5})`)
+        .attr('transform', `translate()`)
         .text(`${this.x}`);
     } else if (axis === 'y') {
       /* This is drawing the y-axis and adding a label*/
@@ -124,44 +171,5 @@ export class BarchartComponent implements OnInit, OnChanges, OnDestroy {
         .text(`${this.y}`);
     }
   }
-
-  /**
-   * This is the main method to render the bar chart it operates on the d3
-   * selection supplied and appends the scales, bars to the selection.
-   *
-   * @param {array} dataSet - objects to draw data with
-   */
-  private draw(dataSet: {}[]): void {
-    this.xData = this.dataService.getData(dataSet, this.x);
-    this.yData = this.dataService.getData(dataSet, this.y);
-
-    this.xScale = this.dataService.makeScale('categorical', this.xData, this.chartWidth);
-    this.yScale = this.dataService.makeScale('linear', this.yData, this.chartHeight, false);
-
-    this.makeAxis('x', this.xScale);
-    this.makeAxis('y', this.yScale);
-
-    /**
-     * We draw the bars into the canvas here. For transitions, the initial height and y have to
-     * be set to the bottom of the chart before rendering the actual data. We animate a rising
-     * effect, the placement of the transition logic drives what actually animates.
-     */
-    this.chart.selectAll('.bar')
-      .data(dataSet)
-      .enter()
-      .append('rect')
-      .attr('class', 'bar')
-      .attr('width', this.xScale.bandwidth())
-      .attr('x', d => this.xScale(d[this.x]))
-      .attr('y', this.yScale(0))
-      .attr('height', this.chartHeight - this.yScale(0))
-      .transition()
-      .ease(d3.easeLinear)
-      .duration(880)
-      .attr('y', d => this.yScale(d[this.y]))
-      .attr('height', d => this.chartHeight - this.yScale(d[this.y]));
-
-  }
-
 
 }
