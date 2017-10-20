@@ -36,19 +36,19 @@ describe('BarChartComponent', () => {
   }));
 
   it('should have a div for d3 to target', () => {
-    expect(de.query(By.css('div'))).toBeTruthy();
+    expect(de.query(By.css('div'))).toBeTruthy('expected d3 to target and make a selection');
   });
 
 
   it('should default values for barChart canvas size', () => {
-    expect(comp.width).toEqual(400);
-    expect(comp.height).toEqual(400);
+    expect(comp.width).toEqual(400, 'expected 400 as default width');
+    expect(comp.height).toEqual(400, 'expected 400 as default height');
     expect(comp.margins).toEqual({
       'top': 60,
       'right': 60,
       'bottom': 60,
       'left': 60
-    });
+    }, 'expected default parameters to be {top: 60, right: 60, bottom: 60, left: 60}');
   });
 
 });

@@ -23,16 +23,17 @@ export class ToolTipService {
    * @param {Tooltip} labelKeys -Tooltip model telling the service what keys to use to extract datum
    * @param {ElementRef} refElement - Reference to the component DOM template that svg is working on
    *
+   * @return {d3.Selection<any, any, any, any>} d3 selection with tooltip applied
    */
   addTooltip(selection: d3.Selection<any, any, any, any>, labelKeys: Tooltip,
-             refElement: ElementRef) {
+             refElement: ElementRef): d3.Selection<any, any, any, any> {
     const tooltipBoxContainer = refElement.nativeElement;
     const tooltipBox = d3.select(tooltipBoxContainer)
       .append('div')
       .attr('class', 'tooltip')
       .style('opacity', 0);
 
-    selection
+    return selection
       .on('mouseover', (d) => {
         const content = `${labelKeys.x}: ${d[labelKeys.x]}<br/>${labelKeys.y}: ${d[labelKeys.y]}`;
         let box;
