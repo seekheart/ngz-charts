@@ -7,7 +7,4 @@
  * found in the LICENSE file
  */
 
-export * from './barChart/public_api';
-export * from './scatterPlot/public_api';
-export * from './shared/public_api';
-export * from './horizontal-bar-chart/public_api';
+export * from './horizontal-bar-chart.module';
