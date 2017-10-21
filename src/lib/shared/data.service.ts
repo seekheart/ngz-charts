@@ -54,6 +54,10 @@ export class DataService {
   }
 
   private makeCategoricalScale(data: any[], measure: number, ordered: boolean = true) {
-    return d3.scaleBand().domain(data).rangeRound([0, measure]);
+    if (ordered) {
+      return d3.scaleBand().domain(data).rangeRound([0, measure]);
+    }else {
+      return d3.scaleBand().domain(data).rangeRound([0, measure]);
+    }
   }
 }
