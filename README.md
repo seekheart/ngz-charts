@@ -1,5 +1,6 @@
 # ngz-charts
 ##### A simple angular 4+ charting library powered by d3!
+[![Build Status](https://travis-ci.org/seekheart/ngz-charts.svg?branch=master)](https://travis-ci.org/seekheart/ngz-charts)
 
 ### Author
 * [Mike Tung](https://github.com/seekheart) - Main Developer / Author
@@ -32,7 +33,7 @@ Time Line|Not Started|1.0.0
 ### The Components
 
 #### Bar Chart
-To use the barchart component, simply import the `BarchartModule` into your `app.module.ts`
+To use the bar chart component, simply import the `BarchartModule` into your `app.module.ts`
 file.
 
 The component requires the user to property bind the following:
@@ -42,19 +43,30 @@ The component requires the user to property bind the following:
 [y] - key of object to plot on y axis.
 ```
 
-Additionally users can change the following properties:
+#### Horizontal Bar Chart
+To use the horizontal bar chart component, simply import the `HorizontalBarChartModule` into your 
+`app.module.ts` file.
+
+The component requires the user to property bind the following:
+```angular2html
+[data] - array of objects.
+[x] - key of object to plot on x axis.
+[y] - key of object to plot on y axis.
 ```
+
+Additionally users can change the following properties:
+```angular2html
 [width] - width of the chart in px
 [height] - height of the chart in px
 [margins] - an object representing padding with css margin properties (top,right,etc)
 ```
 
 #### Scatter Plot
-To use the barchart component, simply import the `ScatterplotModule` into your `app.module.ts`
+To use the scatter plot component, simply import the `ScatterplotModule` into your `app.module.ts`
 file.
 
 The component requires the user to property bind the following:
-```
+```angular2html
 [data] - array of objects.
 [x] - key of object to plot on x axis.
 [y] - key of object to plot on y axis.
@@ -62,11 +74,28 @@ The component requires the user to property bind the following:
 ```
 
 Additionally users can change the following properties:
+```angular2html
+[width] - width of the chart in px.
+[height] - height of the chart in px.
+[margins] - an object representing padding with css margin properties.
+[dotSize] - size of data point.
 ```
+
+### Timeline
+To use the time line component, import `TimelineModule` into your `app.module.ts` file.
+
+The component requires the user to property bind the following:
+```angular2html
+[data] - this is an array of objects with at least one property of date type.
+[dateLabel] - this is the key that points to a date to plot on time line.
+[dateEvent] - this is the key that provides the event name on that date.
+```
+
+Additionally users can change the following:
+```angular2html
 [width] - width of the chart in px
 [height] - height of the chart in px
-[margins] - an object representing padding with css margin properties (top,right,etc)
-[dotSize] - size of data point
+[margins] - an object representing the padding using css margin properties.
 ```
 
 ### Contributing
