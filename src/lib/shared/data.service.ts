@@ -41,6 +41,7 @@ export class DataService {
     const scaleOptions = {
       'linear': this.makeLinearScale(data, measure, ordered),
       'categorical': this.makeCategoricalScale(data, measure, ordered),
+      'time': this.makeTimeScale(data, measure, ordered)
     };
 
     return scaleOptions[scaleType];
@@ -56,8 +57,16 @@ export class DataService {
   private makeCategoricalScale(data: any[], measure: number, ordered: boolean = true) {
     if (ordered) {
       return d3.scaleBand().domain(data).rangeRound([0, measure]);
-    }else {
+    } else {
       return d3.scaleBand().domain(data).rangeRound([0, measure]);
+    }
+  }
+
+  private makeTimeScale(data: number[], measure: number, ordered: boolean = true) {
+    if (ordered) {
+      return d3.scaleTime().domain(d3.extent(data)).rangeRound([0, measure]);
+    } else {
+      return d3.scaleTime().domain(data).rangeRound([0, measure]);
     }
   }
 }

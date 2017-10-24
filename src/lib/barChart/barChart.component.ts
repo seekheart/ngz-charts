@@ -76,7 +76,7 @@ export class BarChartComponent implements OnInit, OnChanges, OnDestroy {
    * This life cycle hook tells angular to detect any changes and to adjust
    * the chart accordingly and also serves to separate out different
    * instances of the same chart
-   * */
+   */
   ngOnChanges() {
     this.chartWidth = this.width - this.margins.left - this.margins.right;
     this.chartHeight = this.height - this.margins.top - this.margins.bottom;

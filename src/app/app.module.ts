@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { BarChartModule } from '../lib/barChart/barChart.module';
 import { ScatterPlotModule } from '../lib/scatterPlot/scatterPlot.module';
 import { HorizontalBarChartModule } from '../lib/horizontal-bar-chart/horizontal-bar-chart.module';
+import { TimelineModule } from '../lib/timeline/timeline.module';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { HorizontalBarChartModule } from '../lib/horizontal-bar-chart/horizontal
     BrowserModule,
     BarChartModule,
     ScatterPlotModule,
-    HorizontalBarChartModule
+    HorizontalBarChartModule,
+    TimelineModule
   ],
   bootstrap: [AppComponent]
 })

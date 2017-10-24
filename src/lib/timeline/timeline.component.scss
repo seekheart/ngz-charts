@@ -1,0 +1,14 @@
+.canvas {
+  width: 100%;
+  height: 100%;
+}
+
+::ng-deep .time-point {
+  fill: steelblue;
+}
+
+::ng-deep .time-axis {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 100%;
+  font-weight: 400;
+}
