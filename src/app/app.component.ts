@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'ngz-charts-app-root',
+  selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
@@ -37,4 +37,10 @@ export class AppComponent {
     {'x': 2, 'y': 2},
     {'x': 3, 'y': 3}
   ];
+
+  timeData = [
+    {'day': new Date(1), 'eventName': 'test'},
+    {'day': new Date(2), 'eventName': 'test2'},
+    {'day': new Date(33), 'eventName': 'test3'},
+    ];
 }
