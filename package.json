@@ -1,6 +1,6 @@
 {
   "name": "ngz-charts",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Michael Tung",
   "description": "An Angular charting library powered by D3",
   "license": "MIT",
