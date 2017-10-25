@@ -37,10 +37,22 @@ To use the bar chart component, simply import the `BarchartModule` into your `ap
 file.
 
 The component requires the user to property bind the following:
-```
+```angular2html
+<ngz-charts-barchart
 [data] - array of objects.
 [x] - key of object to plot on x axis.
 [y] - key of object to plot on y axis.
+>
+</ngz-charts-barchart>
+```
+
+Additionally users can change the following properties:
+```angular2html
+<ngz-charts-barchart
+[width] - width of the chart in px
+[height] - height of the chart in px
+[margins] - an object representing padding with css margin properties (top,right,etc)
+></ngz-charts-barchart>
 ```
 
 #### Horizontal Bar Chart
@@ -49,16 +61,21 @@ To use the horizontal bar chart component, simply import the `HorizontalBarChart
 
 The component requires the user to property bind the following:
 ```angular2html
+<ngz-charts-horizontal-bar-chart
 [data] - array of objects.
 [x] - key of object to plot on x axis.
 [y] - key of object to plot on y axis.
+>
+</ngz-charts-horizontal-bar-chart>
 ```
 
 Additionally users can change the following properties:
 ```angular2html
+<ngz-charts-horizontal-bar-chart
 [width] - width of the chart in px
 [height] - height of the chart in px
 [margins] - an object representing padding with css margin properties (top,right,etc)
+></ngz-charts-horizontal-bar-chart>
 ```
 
 #### Scatter Plot
@@ -67,18 +84,22 @@ file.
 
 The component requires the user to property bind the following:
 ```angular2html
+<ngz-charts-scatterplot
 [data] - array of objects.
 [x] - key of object to plot on x axis.
 [y] - key of object to plot on y axis.
-[dotShape] - shape to represent datum (circle/rect)
+[dotShape] - shape to represent datum (circle)
+></ngz-charts-scatterplot>
 ```
 
 Additionally users can change the following properties:
 ```angular2html
+<ngz-chart-scatterplot
 [width] - width of the chart in px.
 [height] - height of the chart in px.
 [margins] - an object representing padding with css margin properties.
 [dotSize] - size of data point.
+></ngz-chart-scatterplot>
 ```
 
 ### Timeline
@@ -86,16 +107,21 @@ To use the time line component, import `TimelineModule` into your `app.module.ts
 
 The component requires the user to property bind the following:
 ```angular2html
+<ngz-charts-timeline
 [data] - this is an array of objects with at least one property of date type.
 [dateLabel] - this is the key that points to a date to plot on time line.
 [dateEvent] - this is the key that provides the event name on that date.
+></ngz-charts-timeline>
+
 ```
 
 Additionally users can change the following:
 ```angular2html
+<ngz-charts-timeline
 [width] - width of the chart in px
 [height] - height of the chart in px
 [margins] - an object representing the padding using css margin properties.
+></ngz-charts-timeline>
 ```
 
 ### Contributing
