@@ -8,3 +8,4 @@
  */
 
 export * from './horizontal-bar-chart.module';
+export * from './horizontal-bar-chart.component';

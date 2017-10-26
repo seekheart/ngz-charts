@@ -8,3 +8,4 @@
  */
 
 export * from './scatterPlot.module';
+export * from './scatterPlot.component';

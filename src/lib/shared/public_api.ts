@@ -8,3 +8,6 @@
  */
 
 export * from './shared.module';
+export * from './chart.service';
+export * from './data.service';
+export * from './tooltip.service';
