@@ -37,15 +37,15 @@
   "lint": [
     {
       "project": "src/tsconfig.app.json",
-      "exclude": "src/app/*"
+      "exclude": "**/app/*"
     },
     {
       "project": "src/tsconfig.spec.json",
-      "exclude": "src/app/*"
+      "exclude": "**/app/*"
     },
     {
       "project": "e2e/tsconfig.e2e.json",
-      "exclude": "src/app/*"
+      "exclude": "**/app/*"
     }
   ],
   "test": {
