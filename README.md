@@ -17,7 +17,7 @@ For the 1.0.0 [release] a handful of components will be readily available and co
 are welcome.
 
 ### Live Demo
-You can play with a demo [here](https://stackblitz.com/edit/angular-fvyyz9)
+You can play with a demo [here](https://stackblitz.com/edit/ngz-charts-demo)
 
 ### Status of Components
 
