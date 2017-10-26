@@ -26,6 +26,7 @@ before_install:
 
 install:
 - npm install
+- npm install d3
 
 cache:
   directories:
