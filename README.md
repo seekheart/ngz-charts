@@ -33,7 +33,7 @@ Time Line|Not Started|1.0.0
 ### The Components
 
 #### Bar Chart
-To use the bar chart component, simply import the `BarchartModule` into your `app.module.ts`
+To use the bar chart component, simply import the `BarChartModule` into your `app.module.ts`
 file.
 
 The component requires the user to property bind the following:
@@ -79,7 +79,7 @@ Additionally users can change the following properties:
 ```
 
 #### Scatter Plot
-To use the scatter plot component, simply import the `ScatterplotModule` into your `app.module.ts`
+To use the scatter plot component, simply import the `ScatterPlotModule` into your `app.module.ts`
 file.
 
 The component requires the user to property bind the following:
