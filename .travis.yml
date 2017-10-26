@@ -24,9 +24,9 @@ before_install:
  - export DISPLAY=:99.0
  - sh -e /etc/init.d/xvfb start
 
-before_script:
-- npm install -g @angular/cli
+install:
 - npm install
+- npm install d3
 
 cache:
   directories:
