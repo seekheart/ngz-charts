@@ -16,6 +16,9 @@ Currently ngz-charts is in alpha and thus will be a work in progress.
 For the 1.0.0 [release] a handful of components will be readily available and contributions
 are welcome.
 
+### Live Demo
+You can play with a demo [here](https://stackblitz.com/edit/angular-fvyyz9)
+
 ### Status of Components
 
 **Component**|**Status**|**Release**
